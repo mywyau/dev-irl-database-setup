@@ -15,6 +15,7 @@ setup_postgres.sh
 clear_down_postgres.sh
 ```
 
+
 ### Apply flyway migrations to database
 
 To populate the database we can use flyway's migrations
