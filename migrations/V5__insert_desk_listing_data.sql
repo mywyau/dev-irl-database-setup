@@ -1,0 +1,62 @@
+INSERT INTO desk_listings (
+    user_id,
+    business_id,
+    office_id,
+    desk_id,
+    desk_name,
+    description,
+    desk_type,
+    quantity,
+    price_per_hour,
+    price_per_day,
+    features,
+    availability,
+    rules,
+    created_at,
+    updated_at
+)
+VALUES
+-- Desk 1: Private Desk
+('user001', 'biz001', 'office01', 'desk001', 'Private Desk', 
+ 'A quiet, private desk perfect for focused work with a comfortable chair and good lighting.', 'Private Desk', 
+ 5, 20.0, 100.0, 
+ ARRAY['Wi-Fi', 'Power Outlets', 'Ergonomic Chair', 'Desk Lamp'], 
+ '{"days": ["Monday", "Tuesday", "Wednesday"], "startTime": "09:00:00", "endTime": "17:00:00"}', 
+ 'No loud conversations, please keep the workspace clean.', 
+ CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+-- Desk 2: Hot Desk
+('user002', 'biz002', 'office02', 'desk002', 'Hot Desk', 
+ 'A flexible workspace, great for team collaboration or individual tasks. Shared with others.', 'Hot Desk', 
+ 10, 15.0, 75.0, 
+ ARRAY['Wi-Fi', 'Coffee', 'Shared Printer', 'Whiteboard'], 
+ '{"days": ["Thursday", "Friday"], "startTime": "08:00:00", "endTime": "18:00:00"}', 
+ 'Clean up after use. Shared space etiquette.', 
+ CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+-- Desk 3: Executive Desk
+('user003', 'biz003', 'office03', 'desk003', 'Executive Desk', 
+ 'A high-end desk offering privacy and premium features for high-level executives.', 'Executive Desk', 
+ 2, 50.0, 250.0, 
+ ARRAY['Wi-Fi', 'Ergonomic Chair', 'Monitor', 'Desk Lamp', 'Private Phone Line'], 
+ '{"days": ["Monday", "Tuesday"], "startTime": "09:00:00", "endTime": "18:00:00"}', 
+ 'Reserved for executives. Maintain professionalism and decorum.', 
+ CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+-- Desk 4: Standing Desk
+('user004', 'biz004', 'office04', 'desk004', 'Standing Desk', 
+ 'An adjustable desk designed for better posture and health, equipped with a comfortable standing mat.', 'Standing Desk', 
+ 8, 18.0, 90.0, 
+ ARRAY['Wi-Fi', 'Adjustable Height', 'Monitor', 'Standing Mat'], 
+ '{"days": ["Wednesday", "Thursday", "Friday"], "startTime": "08:30:00", "endTime": "16:30:00"}', 
+ 'Do not adjust the height without prior permission. Use the standing mat.', 
+ CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+
+-- Desk 5: Outdoor Desk
+('user005', 'biz005', 'office05', 'desk005', 'Outdoor Desk', 
+ 'A unique desk in an outdoor garden area, ideal for those who enjoy nature while working.', 'Outdoor Desk', 
+ 3, 25.0, 120.0, 
+ ARRAY['Wi-Fi', 'Shade Umbrella', 'Power Outlets', 'Lounge Chair'], 
+ '{"days": ["Saturday", "Sunday"], "startTime": "10:00:00", "endTime": "18:00:00"}', 
+ 'Be mindful of weather conditions. Protect your devices from rain or extreme heat.', 
+ CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
