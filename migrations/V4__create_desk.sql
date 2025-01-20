@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS desk_listings;
 
-CREATE TABLE desk_listings (
+CREATE TABLE desk_specifications (
     id SERIAL PRIMARY KEY,
     user_id VARCHAR(255),
     business_id VARCHAR(255),
@@ -9,7 +9,7 @@ CREATE TABLE desk_listings (
     desk_name VARCHAR(50),
     description TEXT,
     desk_type VARCHAR(100),
-    quantity INT NOT NULL CHECK (quantity >= 0),
+    quantity INT CHECK (quantity >= 0),
     features TEXT[],
     availability JSONB,
     rules TEXT,
