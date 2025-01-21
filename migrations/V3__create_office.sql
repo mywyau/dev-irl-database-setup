@@ -1,5 +1,9 @@
-DROP TABLE IF EXISTS office_details;
+-- Drop existing tables if they exist
+DROP TABLE IF EXISTS office_contact_details;
+DROP TABLE IF EXISTS office_address;
+DROP TABLE IF EXISTS office_specifications;
 
+-- Office Contact Details Table
 CREATE TABLE office_contact_details (
     id BIGSERIAL PRIMARY KEY,
     business_id VARCHAR(255) NOT NULL,
@@ -9,11 +13,22 @@ CREATE TABLE office_contact_details (
     contact_email VARCHAR(255),
     contact_number VARCHAR(20),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_business_spec_contact
+        FOREIGN KEY (business_id)
+        REFERENCES business_specifications(business_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_business_address_contact
+        FOREIGN KEY (business_id)
+        REFERENCES business_address(business_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_business_contact_details_contact
+        FOREIGN KEY (business_id)
+        REFERENCES business_contact_details(business_id)
+        ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS office_address;
-
+-- Office Address Table
 CREATE TABLE office_address (
     id BIGSERIAL PRIMARY KEY,
     business_id VARCHAR(255) NOT NULL,
@@ -28,11 +43,22 @@ CREATE TABLE office_address (
     latitude DECIMAL(9,6),
     longitude DECIMAL(9,6),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_business_spec_address
+        FOREIGN KEY (business_id)
+        REFERENCES business_specifications(business_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_business_address_address
+        FOREIGN KEY (business_id)
+        REFERENCES business_address(business_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_business_contact_details_address
+        FOREIGN KEY (business_id)
+        REFERENCES business_contact_details(business_id)
+        ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS office_specs;
-
+-- Office Specifications Table
 CREATE TABLE office_specifications (
     id SERIAL PRIMARY KEY,
     business_id VARCHAR(255) NOT NULL,
@@ -47,7 +73,17 @@ CREATE TABLE office_specifications (
     availability JSONB,
     rules TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_business_spec_spec
+        FOREIGN KEY (business_id)
+        REFERENCES business_specifications(business_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_business_address_spec
+        FOREIGN KEY (business_id)
+        REFERENCES business_address(business_id)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_business_contact_details_spec
+        FOREIGN KEY (business_id)
+        REFERENCES business_contact_details(business_id)
+        ON DELETE CASCADE
 );
-
-
