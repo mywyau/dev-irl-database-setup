@@ -13,7 +13,7 @@ CREATE TABLE desk_specifications (
     desk_type VARCHAR(100),
     quantity INT CHECK (quantity >= 0),
     features TEXT[],
-    -- opening_hours JSONB,
+    opening_hours JSONB,
     rules TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

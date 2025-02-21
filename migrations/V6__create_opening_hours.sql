@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS business_opening_hours;
+DROP TABLE IF EXISTS office_opening_hours;
+DROP TABLE IF EXISTS desk_opening_hours;
+
+
 
 CREATE TABLE business_opening_hours (
       id BIGSERIAL PRIMARY KEY UNIQUE,

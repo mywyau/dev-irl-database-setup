@@ -70,7 +70,7 @@ CREATE TABLE office_specifications (
     total_desks INT,
     capacity INT,
     amenities TEXT[],
-    -- opening_hours JSONB,
+    opening_hours JSONB,
     rules TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
