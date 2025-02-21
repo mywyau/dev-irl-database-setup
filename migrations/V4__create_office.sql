@@ -17,7 +17,7 @@ CREATE TABLE office_contact_details (
     CONSTRAINT fk_business_spec_contact
         FOREIGN KEY (business_id)
         REFERENCES business_specifications(business_id)
-        ON DELETE CASCADE,
+        ON DELETE CASCADE,    
     CONSTRAINT fk_business_address_contact
         FOREIGN KEY (business_id)
         REFERENCES business_address(business_id)
@@ -70,7 +70,7 @@ CREATE TABLE office_specifications (
     total_desks INT,
     capacity INT,
     amenities TEXT[],
-    availability JSONB,
+    -- opening_hours JSONB,
     rules TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

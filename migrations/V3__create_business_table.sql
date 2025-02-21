@@ -40,7 +40,7 @@ CREATE TABLE business_specifications (
     business_id VARCHAR(255) NOT NULL UNIQUE,
     business_name VARCHAR(255) NOT NULL,
     description TEXT,
-    availability JSONB,
+    opening_hours JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
