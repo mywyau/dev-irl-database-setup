@@ -1,21 +1,16 @@
 version: '3.8'
 
 services:
-  flyway-migration-megaman:
+  dev-irl-flyway-migration:
     image: flyway/flyway:latest
-    container_name: flyway-migration-megaman
+    container_name: flyway-migration-dev-irl
     command: migrate
     volumes:
       - ./flyway/flyway.conf:/flyway/conf/flyway.conf
       - ./migrations:/flyway/sql
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -h postgres -p 5432 -U shared_user" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
-      - traefik-network
-
+      - dev-irl-network
+      
 networks:
-  traefik-network:
+  dev-irl-network:
     external: true
