@@ -1,28 +1,22 @@
 #!/bin/bash
 set -e
 
-echo "Checking if shared_db exists..."
-DB_SHARED_EXISTS=$(psql -U "$POSTGRES_USER" -d postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'shared_db';" | xargs)
+create_db_if_not_exists() {
+  local DB_NAME=$1
 
-if [ "$DB_SHARED_EXISTS" != "1" ]; then
-  echo "Creating shared_db..."
-  psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "postgres" <<-EOSQL
-    CREATE DATABASE shared_db;
-    GRANT ALL PRIVILEGES ON DATABASE shared_db TO $POSTGRES_USER;
+  echo "Checking if $DB_NAME exists..."
+  DB_EXISTS=$(psql -U "$POSTGRES_USER" -d postgres -tc "SELECT 1 FROM pg_database WHERE datname = '${DB_NAME}';" | xargs)
+
+  if [ "$DB_EXISTS" != "1" ]; then
+    echo "Creating $DB_NAME..."
+    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "postgres" <<-EOSQL
+      CREATE DATABASE $DB_NAME;
+      GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $POSTGRES_USER;
 EOSQL
-else
-  echo "Database shared_db already exists. Skipping creation."
-fi
+  else
+    echo "Database $DB_NAME already exists. Skipping creation."
+  fi
+}
 
-echo "Checking if shared_test_db exists..."
-DB_TEST_EXISTS=$(psql -U "$POSTGRES_USER" -d postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'shared_test_db';" | xargs)
-
-if [ "$DB_TEST_EXISTS" != "1" ]; then
-  echo "Creating shared_test_db..."
-  psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "postgres" <<-EOSQL
-    CREATE DATABASE shared_test_db;
-    GRANT ALL PRIVILEGES ON DATABASE shared_test_db TO $POSTGRES_USER;
-EOSQL
-else
-  echo "Database shared_test_db already exists. Skipping creation."
-fi
+create_db_if_not_exists dev_quest_db
+# create_db_if_not_exists dev_quest_test_db
