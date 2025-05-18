@@ -13,19 +13,32 @@ CREATE TABLE users (
 -- Quests table
 CREATE TABLE quests (
     id BIGSERIAL PRIMARY KEY,
-    user_id UUID NOT NULL REFERENCES users(id),
+    user_id VARCHAR(255) NOT NULL,
+    quest_id VARCHAR(255) NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    status VARCHAR(50) NOT NULL DEFAULT 'not-started',
+    status VARCHAR(50) NOT NULL DEFAULT 'NotStarted',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE quest_progress (
+-- TODO: suggested improvements
+-- CREATE TABLE quests (
+--     id BIGSERIAL PRIMARY KEY,
+--     client_id UUID NOT NULL REFERENCES users(id), -- who posted the quest
+--     title VARCHAR(255) NOT NULL,
+--     description TEXT NOT NULL,
+--     status VARCHAR(50) NOT NULL DEFAULT 'open', -- open | claimed | completed
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
+
+CREATE TABLE quest_claims (
     id BIGSERIAL PRIMARY KEY,
     quest_id BIGINT NOT NULL REFERENCES quests(id),
-    user_id UUID NOT NULL REFERENCES users(id),
-    status VARCHAR(50) NOT NULL DEFAULT 'started', -- or: in-review, complete
+    user_id UUID NOT NULL REFERENCES users(id), -- the contributor
+    status VARCHAR(50) NOT NULL DEFAULT 'active', -- active | submitted | approved | abandoned
     submitted_at TIMESTAMP,
     completed_at TIMESTAMP
 );

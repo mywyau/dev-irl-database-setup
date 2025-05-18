@@ -3,7 +3,7 @@ services:
     image: postgres:latest
     container_name: dev-quest-container
     environment:
-      POSTGRES_DB: dev_quest
+      POSTGRES_DB: dev_quest_db
       POSTGRES_USER: dev_quest_user
       POSTGRES_PASSWORD: turnip
     ports:

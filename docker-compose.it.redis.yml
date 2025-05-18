@@ -1,0 +1,16 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: redis-test-container
+    ports:
+      - "6380:6379"  # Maps host:container
+    networks:
+      - dev-irl-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data_prod:
+
+networks:
+  dev-irl-network:
+    external: true

@@ -1,4 +1,4 @@
-# megaman
+# dev-irl-database-setup
 
 Repository responsible for database setup. We use docker containers and docker compose
 
