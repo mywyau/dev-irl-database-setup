@@ -4,10 +4,13 @@ DROP TABLE IF EXISTS quest_progress;
 DROP TABLE IF EXISTS bounty;
 
 CREATE TABLE users (
-    id UUID PRIMARY KEY,
-    email TEXT UNIQUE NOT NULL,
-    name TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    user_id VARCHAR(255) PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    user_type VARCHAR(50) NOT NULL CHECK (user_type IN ('Client', 'Dev')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Quests table
@@ -22,44 +25,13 @@ CREATE TABLE quests (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- TODO: suggested improvements
--- CREATE TABLE quests (
---     id BIGSERIAL PRIMARY KEY,
---     client_id UUID NOT NULL REFERENCES users(id), -- who posted the quest
---     title VARCHAR(255) NOT NULL,
---     description TEXT NOT NULL,
---     status VARCHAR(50) NOT NULL DEFAULT 'open', -- open | claimed | completed
---     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
--- );
-
-
-CREATE TABLE quest_claims (
-    id BIGSERIAL PRIMARY KEY,
-    quest_id BIGINT NOT NULL REFERENCES quests(id),
-    user_id UUID NOT NULL REFERENCES users(id), -- the contributor
-    status VARCHAR(50) NOT NULL DEFAULT 'active', -- active | submitted | approved | abandoned
-    submitted_at TIMESTAMP,
-    completed_at TIMESTAMP
-);
-
-
--- Bounty table
-CREATE TABLE bounty (
+-- Reward table
+CREATE TABLE reward (
     id BIGSERIAL PRIMARY KEY,
     quest_id BIGINT NOT NULL REFERENCES quests(id),
     base_reward NUMERIC NOT NULL,
     time_reward NUMERIC NOT NULL,
-    success_reward NUMERIC NOT NULL,
+    completion_reward NUMERIC NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
-CREATE TABLE rewards (
-    id BIGSERIAL PRIMARY KEY,
-    quest_id BIGINT NOT NULL REFERENCES quests(id),
-    user_id UUID NOT NULL REFERENCES users(id),
-    amount NUMERIC NOT NULL,
-    claimed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
