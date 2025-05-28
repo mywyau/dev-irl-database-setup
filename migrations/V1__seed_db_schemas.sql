@@ -1,14 +1,13 @@
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS quests;
-DROP TABLE IF EXISTS quest_progress;
-DROP TABLE IF EXISTS bounty;
+DROP TABLE IF EXISTS reward;
 
 CREATE TABLE users (
     user_id VARCHAR(255) PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
-    user_type VARCHAR(50) NOT NULL CHECK (user_type IN ('Client', 'Dev')),
+    user_type VARCHAR(50) CHECK (user_type IN ('Client', 'Dev', 'UnknownUserType')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
