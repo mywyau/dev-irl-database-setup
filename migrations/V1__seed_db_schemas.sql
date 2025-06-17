@@ -18,13 +18,25 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE user_skills (
+CREATE TABLE skill (
   id BIGSERIAL PRIMARY KEY,
   dev_id VARCHAR(255),
-  skill TEXT NOT NULL,
-  level INT NOT NULL DEFAULT 1,
-  xp INT NOT NULL DEFAULT 0
+  username VARCHAR(255),
+  skill VARCHAR(255),
+  level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
+  xp DECIMAL(10,2) NOT NULL DEFAULT 0.00
 );
+
+
+CREATE TABLE language (
+  id BIGSERIAL PRIMARY KEY,
+  dev_id VARCHAR(255),
+  username VARCHAR(255),
+  language VARCHAR(255),
+  level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
+  xp DECIMAL(10,2) NOT NULL DEFAULT 0.00
+);
+
 
 -- Quests table
 CREATE TABLE quests (
@@ -45,23 +57,6 @@ CREATE TABLE quests (
     FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
-
--- maybe not needed
--- -- Quests Details table
--- CREATE TABLE quests_details (
---     id BIGSERIAL PRIMARY KEY,
---     quest_id VARCHAR(255) NOT NULL UNIQUE,
---     client_id VARCHAR(255) NOT NULL,
---     dev_id VARCHAR(255),
---     tags VARCHAR(255),
---     tier VARCHAR(255),
---     deadline TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     expires_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
---     FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
--- );
 
 -- Reward table
 CREATE TABLE reward (
