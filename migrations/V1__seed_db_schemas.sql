@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS user_skills;
+DROP TABLE IF EXISTS skill;
+DROP TABLE IF EXISTS language;
 DROP TABLE IF EXISTS quests;
 DROP TABLE IF EXISTS reward;
 DROP TABLE IF EXISTS dev_submissions;
@@ -24,7 +25,8 @@ CREATE TABLE skill (
   username VARCHAR(255),
   skill VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
-  xp DECIMAL(10,2) NOT NULL DEFAULT 0.00
+  xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  CONSTRAINT unique_dev_skill UNIQUE (dev_id, skill)
 );
 
 
@@ -34,7 +36,8 @@ CREATE TABLE language (
   username VARCHAR(255),
   language VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
-  xp DECIMAL(10,2) NOT NULL DEFAULT 0.00
+  xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  CONSTRAINT unique_dev_language UNIQUE (dev_id, language)
 );
 
 
@@ -49,7 +52,7 @@ CREATE TABLE quests (
     description TEXT,
     acceptance_criteria TEXT NOT NULL,
     status VARCHAR(50) NOT NULL DEFAULT 'NotStarted',
-    tags VARCHAR(255),
+    tags TEXT[],
     deadline TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     expires_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
