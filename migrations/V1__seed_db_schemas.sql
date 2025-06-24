@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS stripe_accounts;
 DROP TABLE IF EXISTS skill;
 DROP TABLE IF EXISTS language;
 DROP TABLE IF EXISTS quests;
@@ -21,7 +22,7 @@ CREATE TABLE users (
 
 CREATE TABLE stripe_accounts (
   id BIGSERIAL PRIMARY KEY,
-  user_id VARCHAR(255) NOT NULL UNIQUE REFERENCES users(user_id) ON DELETE CASCADE,
+  user_id VARCHAR(255) NOT NULL UNIQUE,
   stripe_account_id VARCHAR(255) NOT NULL UNIQUE,
   onboarded BOOLEAN DEFAULT FALSE,
   charges_enabled BOOLEAN DEFAULT FALSE,
@@ -79,9 +80,9 @@ CREATE TABLE reward (
     id BIGSERIAL PRIMARY KEY,
     quest_id VARCHAR(255) NOT NULL,
     client_id VARCHAR(255) NOT NULL, 
-    dev_id VARCHAR(255) NOT NULL,
-    dollar_value NUMERIC,
-    paid VARCHAR(50) DEFAULT "NotPaid",
+    dev_id VARCHAR(255),
+    reward_value NUMERIC,
+    paid VARCHAR(50) DEFAULT 'NotPaid',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE
