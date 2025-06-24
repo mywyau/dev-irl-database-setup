@@ -19,6 +19,18 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE stripe_accounts (
+  id BIGSERIAL PRIMARY KEY,
+  user_id VARCHAR(255) NOT NULL UNIQUE REFERENCES users(user_id) ON DELETE CASCADE,
+  stripe_account_id VARCHAR(255) NOT NULL UNIQUE,
+  onboarded BOOLEAN DEFAULT FALSE,
+  charges_enabled BOOLEAN DEFAULT FALSE,
+  payouts_enabled BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 CREATE TABLE skill (
   id BIGSERIAL PRIMARY KEY,
   dev_id VARCHAR(255),
@@ -26,9 +38,9 @@ CREATE TABLE skill (
   skill VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  CONSTRAINT unique_dev_skill UNIQUE (dev_id, skill)
+  CONSTRAINT unique_dev_skill UNIQUE (dev_id, skill),
+  FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
-
 
 CREATE TABLE language (
   id BIGSERIAL PRIMARY KEY,
@@ -37,7 +49,8 @@ CREATE TABLE language (
   language VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  CONSTRAINT unique_dev_language UNIQUE (dev_id, language)
+  CONSTRAINT unique_dev_language UNIQUE (dev_id, language),
+  FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 
@@ -67,11 +80,8 @@ CREATE TABLE reward (
     quest_id VARCHAR(255) NOT NULL,
     client_id VARCHAR(255) NOT NULL, 
     dev_id VARCHAR(255) NOT NULL,
-    base_reward NUMERIC NOT NULL,
-    time_reward NUMERIC,
-    completion_bonus NUMERIC,
-    claimed BOOLEAN DEFAULT FALSE,
-    eligible BOOLEAN DEFAULT TRUE,          -- If false, user is disqualified from reward
+    dollar_value NUMERIC,
+    paid VARCHAR(50) DEFAULT "NotPaid",
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE
