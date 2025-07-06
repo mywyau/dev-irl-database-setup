@@ -109,7 +109,6 @@ CREATE TABLE dev_submissions (
     FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE
 );
 
-
 CREATE TABLE quest_estimations (
   id BIGSERIAL PRIMARY KEY,
   estimate_id VARCHAR(255) NOT NULL,
@@ -119,12 +118,10 @@ CREATE TABLE quest_estimations (
   score INT NOT NULL CHECK (score >= 1 AND score <= 100),
   estimated_days INT CHECK (estimated_days > 0),
   rank VARCHAR(50),
-  final_score DECIMAL(5,2),   -- final score used to calculate the rank
+  final_score DECIMAL(5,2),                       
   comment TEXT,
-  dev_xp DECIMAL(10,2) DEFAULT 0.00,         -- snapshot of dev XP
-  dev_reputation INT DEFAULT 0,              -- optional future reputation field
-  estimation_status VARCHAR(20) DEFAULT 'open', -- 'open' or 'closed'
+  estimation_status VARCHAR(20) DEFAULT 'open',   
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE (quest_id, dev_id)                  -- only one vote per dev per quest
+  UNIQUE (quest_id, dev_id)                       
 );
