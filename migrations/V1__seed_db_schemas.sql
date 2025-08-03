@@ -96,13 +96,14 @@ CREATE TABLE quest_hours (
 CREATE TABLE dev_bids (
     id BIGSERIAL PRIMARY KEY,
     quest_id VARCHAR(255) NOT NULL,
-    dev_id VARCHAR(255) NOT NULL UNIQUE,
+    dev_id VARCHAR(255) NOT NULL,
     dev_username VARCHAR(50) NOT NULL,
     bid  NUMERIC NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE,
-    FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
+    FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    UNIQUE (quest_id, dev_id)
 );
 
 CREATE TABLE reward (
