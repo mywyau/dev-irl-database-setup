@@ -90,7 +90,7 @@ CREATE TABLE dev_languages (
   language VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  next_level INT GENERATED ALWAYS AS (level + 1) STORED,
+  next_level INT,
   next_level_xp DECIMAL(10, 2),
   CONSTRAINT unique_dev_language UNIQUE (dev_id, language),
   FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
@@ -114,7 +114,7 @@ CREATE TABLE quest_estimations (
   dev_id VARCHAR(100) NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
   username VARCHAR(50),
   score INT NOT NULL CHECK (score >= 1 AND score <= 100),
-  estimated_days INT CHECK (estimated_days > 0),  
+  estimated_hours DECIMAL(10,2) CHECK (estimated_hours > 0 AND estimated_hours <= 150),  
   comment TEXT,
   estimation_status VARCHAR(20) DEFAULT 'open',   
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -155,7 +155,7 @@ CREATE TABLE dev_skills (
   skill VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  next_level INT GENERATED ALWAYS AS (level + 1) STORED,
+  next_level INT,
   next_level_xp DECIMAL(10, 2),
   CONSTRAINT unique_dev_skill UNIQUE (dev_id, skill),
   FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
