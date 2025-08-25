@@ -1,28 +1,3 @@
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS quests;
-DROP TABLE IF EXISTS dev_bids;
-DROP TABLE IF EXISTS dev_submissions;
-DROP TABLE IF EXISTS estimation_expiration;
-DROP TABLE IF EXISTS language;
-DROP TABLE IF EXISTS quest_assignment;
-DROP TABLE IF EXISTS quest_estimations;
-DROP TABLE IF EXISTS quest_hours;
-DROP TABLE IF EXISTS reward;
-DROP TABLE IF EXISTS skill;
-DROP TABLE IF EXISTS stripe_accounts;
-
-CREATE TABLE users (
-    id BIGSERIAL PRIMARY KEY,
-    user_id VARCHAR(100) UNIQUE,
-    username VARCHAR(50) UNIQUE,
-    email VARCHAR(100) NOT NULL,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    mobile VARCHAR(50),
-    user_type VARCHAR(50) CHECK (user_type IN ('Client', 'Dev', 'UnknownUserType')),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
 CREATE TABLE quests (
     id BIGSERIAL PRIMARY KEY,
@@ -83,19 +58,6 @@ CREATE TABLE estimation_expiration (
     FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE dev_languages (
-  id BIGSERIAL PRIMARY KEY,
-  dev_id VARCHAR(100),
-  username VARCHAR(50),
-  language VARCHAR(255),
-  level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
-  xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  next_level INT,
-  next_level_xp DECIMAL(10, 2),
-  CONSTRAINT unique_dev_language UNIQUE (dev_id, language),
-  FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
 CREATE TABLE quest_assignment (
     id BIGSERIAL PRIMARY KEY,
     quest_id VARCHAR(255) NOT NULL UNIQUE,
@@ -147,50 +109,3 @@ CREATE TABLE reward (
     FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE,
     UNIQUE (quest_id, client_id) 
 );
-
-CREATE TABLE dev_skills (
-  id BIGSERIAL PRIMARY KEY,
-  dev_id VARCHAR(100),
-  username VARCHAR(50),
-  skill VARCHAR(255),
-  level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
-  xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  next_level INT,
-  next_level_xp DECIMAL(10, 2),
-  CONSTRAINT unique_dev_skill UNIQUE (dev_id, skill),
-  FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
-CREATE TABLE stripe_accounts (
-  id BIGSERIAL PRIMARY KEY,
-  user_id VARCHAR(100) UNIQUE NOT NULL,
-  stripe_account_id VARCHAR(255) NOT NULL UNIQUE,
-  onboarded BOOLEAN DEFAULT FALSE,
-  charges_enabled BOOLEAN DEFAULT FALSE,
-  payouts_enabled BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE plans (
-  id BIGSERIAL PRIMARY KEY,
-  plan_id VARCHAR(100) UNIQUE NOT NULL, -- internal or Stripe price ID
-  name VARCHAR(100) NOT NULL,
-  description TEXT,
-  price NUMERIC NOT NULL DEFAULT 0.00, -- monthly price
-  interval VARCHAR(20) DEFAULT 'month', -- 'month', 'year'
-  is_active BOOLEAN DEFAULT TRUE,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE user_plans (
-  id BIGSERIAL PRIMARY KEY,
-  user_id VARCHAR(100) NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
-  plan_id VARCHAR(100) NOT NULL REFERENCES plans(plan_id),
-  stripe_subscription_id VARCHAR(255), -- optional if using Stripe
-  status VARCHAR(50) DEFAULT 'active', -- e.g. 'active', 'canceled', 'past_due'
-  started_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-  expires_at TIMESTAMPTZ, -- for time-limited plans
-  UNIQUE (user_id)
-);
-
