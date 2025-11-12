@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: dev-auth-db
+    environment:
+      POSTGRES_DB: dev_auth_db
+      POSTGRES_USER: dev_auth_user
+      POSTGRES_PASSWORD: turnip
+    ports:
+      - "5433:5432"  # Host:Container (5433 exposed, Postgres still runs on 5432)
+    volumes:
+      - auth_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - dev-irl-network
+    restart: unless-stopped
+
+volumes:
+  auth_data:
+
+networks:
+  dev-irl-network:
+    external: true
