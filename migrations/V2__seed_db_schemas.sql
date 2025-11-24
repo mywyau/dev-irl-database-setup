@@ -1,5 +1,5 @@
 
-CREATE TABLE quests (
+CREATE TABLE job (
     id BIGSERIAL PRIMARY KEY,
     quest_id VARCHAR(255) NOT NULL UNIQUE,
     client_id VARCHAR(255) NOT NULL,
@@ -17,7 +17,34 @@ CREATE TABLE quests (
     FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE dev_bids (
+CREATE TABLE jobs_v2 (
+    id BIGSERIAL PRIMARY KEY,
+    quest_id VARCHAR(255) NOT NULL UNIQUE,
+    client_id VARCHAR(255) NOT NULL,
+    dev_id VARCHAR(100),
+    rank VARCHAR(50),
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    acceptance_criteria TEXT NOT NULL,        
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -- FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    -- FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE notifications (
+    id BIGSERIAL PRIMARY KEY,
+    notification_id VARCHAR(255) NOT NULL UNIQUE,
+    client_id VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    message TEXT,
+    event_type VARCHAR(100) NOT NULL,
+    read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE freelancer_bids (
     id BIGSERIAL PRIMARY KEY,
     quest_id VARCHAR(255) NOT NULL,
     dev_id VARCHAR(255) NOT NULL,
@@ -48,53 +75,6 @@ CREATE TABLE dev_submissions (
     FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE
 );
 
-CREATE TABLE estimation_expiration (
-    id BIGSERIAL PRIMARY KEY,
-    quest_id VARCHAR(255) NOT NULL UNIQUE,
-    client_id VARCHAR(255) NOT NULL,
-    estimation_close_at TIMESTAMPTZ,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
-CREATE TABLE quest_assignment (
-    id BIGSERIAL PRIMARY KEY,
-    quest_id VARCHAR(255) NOT NULL UNIQUE,
-    client_id VARCHAR(255) NOT NULL,
-    dev_id VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
-CREATE TABLE quest_estimations (
-  id BIGSERIAL PRIMARY KEY,
-  estimate_id VARCHAR(255) NOT NULL,
-  quest_id VARCHAR(255) NOT NULL REFERENCES quests(quest_id) ON DELETE CASCADE,
-  dev_id VARCHAR(100) NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
-  username VARCHAR(50),
-  score INT NOT NULL CHECK (score >= 1 AND score <= 100),
-  estimated_hours DECIMAL(10,2) CHECK (estimated_hours > 0 AND estimated_hours <= 150),  
-  comment TEXT,
-  estimation_status VARCHAR(20) DEFAULT 'open',   
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE (quest_id, dev_id)                       
-);
-
-CREATE TABLE quest_hours (
-    id BIGSERIAL PRIMARY KEY,
-    quest_id VARCHAR(255) NOT NULL,
-    client_id VARCHAR(255) NOT NULL,
-    hours_of_work NUMERIC NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE,
-    FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    UNIQUE (quest_id, client_id) 
-);
 
 CREATE TABLE reward (
     id BIGSERIAL PRIMARY KEY,
