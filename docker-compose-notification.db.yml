@@ -1,22 +1,41 @@
+version: "3.9"
+
 services:
-  postgres:
+  postgres-notifications:
     image: postgres:latest
-    container_name: dev-notification-db
+    container_name: dev-notifications-db
     environment:
-      POSTGRES_DB: dev_notification_db
-      POSTGRES_USER: dev_notification_user
+      POSTGRES_DB: dev_notifications_db
+      POSTGRES_USER: dev_notifications_user
       POSTGRES_PASSWORD: turnip
     ports:
-      - "5436:5432"  # Host:Container (5435 exposed, Postgres still runs on 5432)
+      - "5435:5432"  # Host:5435 -> Container:5432
     volumes:
-      - notification_data:/var/lib/postgresql/data
+      - notifications_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - dev-irl-network
+    restart: unless-stopped
+
+  postgres-notifications-test:
+    image: postgres:latest
+    container_name: dev-notifications-db-it
+    environment:
+      POSTGRES_DB: dev_notifications_test_db
+      POSTGRES_USER: dev_notifications_test_user
+      POSTGRES_PASSWORD: turnip
+    ports:
+      - "5436:5432"  # Host:5436 -> Container:5432
+    volumes:
+      - notifications_data_test:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
     networks:
       - dev-irl-network
     restart: unless-stopped
 
 volumes:
-  notification_data:
+  notifications_data:
+  notifications_data_test:
 
 networks:
   dev-irl-network:

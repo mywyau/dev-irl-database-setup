@@ -1,5 +1,7 @@
+version: "3.9"
+
 services:
-  postgres:
+  postgres-auth:
     image: postgres:latest
     container_name: dev-auth-db
     environment:
@@ -7,7 +9,7 @@ services:
       POSTGRES_USER: dev_auth_user
       POSTGRES_PASSWORD: turnip
     ports:
-      - "5433:5432"  # Host:Container (5433 exposed, Postgres still runs on 5432)
+      - "5433:5432"   # Local: 5433 → Container: 5432
     volumes:
       - auth_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
@@ -15,8 +17,25 @@ services:
       - dev-irl-network
     restart: unless-stopped
 
+  postgres-auth-test:
+    image: postgres:latest
+    container_name: dev-auth-db-it
+    environment:
+      POSTGRES_DB: dev_auth_test_db
+      POSTGRES_USER: dev_auth_test_user
+      POSTGRES_PASSWORD: turnip
+    ports:
+      - "5434:5432"   # Local: 5434 → Container: 5432
+    volumes:
+      - auth_data_test:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - dev-irl-network
+    restart: unless-stopped
+
 volumes:
   auth_data:
+  auth_data_test:
 
 networks:
   dev-irl-network:

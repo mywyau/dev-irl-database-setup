@@ -1,0 +1,39 @@
+services:
+  postgres-quests:
+    image: postgres:latest
+    container_name: dev-quests-container
+    environment:
+      POSTGRES_DB: dev_quests_db
+      POSTGRES_USER: dev_quests_user
+      POSTGRES_PASSWORD: turnip
+    ports:
+      - "5431:5432"
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - dev-irl-network
+    restart: unless-stopped
+
+  postgres-quests-test:
+    image: postgres:latest
+    container_name: dev-quests-db-it
+    environment:
+      POSTGRES_DB: dev_quests_test_db
+      POSTGRES_USER: dev_quests_test_user
+      POSTGRES_PASSWORD: turnip
+    ports:
+      - "5432:5432"  # Host:Container (5431 exposed, Postgres still runs on 5432)
+    volumes:
+      - postgres_data_test:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - dev-irl-network
+    restart: unless-stopped  
+
+volumes:
+  postgres_data_local:
+
+networks:
+  dev-irl-network:
+    external: true
