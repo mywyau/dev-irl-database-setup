@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS quests;
+DROP TABLE IF EXISTS jobs;
 DROP TABLE IF EXISTS dev_bids;
 DROP TABLE IF EXISTS dev_submissions;
 DROP TABLE IF EXISTS estimation_expiration;
 DROP TABLE IF EXISTS language;
-DROP TABLE IF EXISTS quest_assignment;
-DROP TABLE IF EXISTS quest_estimations;
-DROP TABLE IF EXISTS quest_hours;
+DROP TABLE IF EXISTS job_assignment;
+DROP TABLE IF EXISTS job_estimations;
+DROP TABLE IF EXISTS job_hours;
 DROP TABLE IF EXISTS reward;
 DROP TABLE IF EXISTS skill;
 DROP TABLE IF EXISTS stripe_accounts;
@@ -37,27 +37,27 @@ CREATE TABLE stripe_accounts (
 
 CREATE TABLE dev_skills (
   id BIGSERIAL PRIMARY KEY,
-  dev_id VARCHAR(100),
+  freelancer_id VARCHAR(100),
   username VARCHAR(50),
   skill VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
   next_level INT,
   next_level_xp DECIMAL(10, 2),
-  CONSTRAINT unique_dev_skill UNIQUE (dev_id, skill),
-  FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
+  CONSTRAINT unique_dev_skill UNIQUE (freelancer_id, skill),
+  FOREIGN KEY (freelancer_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE dev_languages (
   id BIGSERIAL PRIMARY KEY,
-  dev_id VARCHAR(100),
+  freelancer_id VARCHAR(100),
   username VARCHAR(50),
   language VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
   next_level INT,
   next_level_xp DECIMAL(10, 2),
-  CONSTRAINT unique_dev_language UNIQUE (dev_id, language),
-  FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
+  CONSTRAINT unique_dev_language UNIQUE (freelancer_id, language),
+  FOREIGN KEY (freelancer_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 

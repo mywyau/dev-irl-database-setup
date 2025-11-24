@@ -1,10 +1,10 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: dev-quest-container
+    container_name: dev-job-container
     environment:
-      POSTGRES_DB: dev_quest_db
-      POSTGRES_USER: dev_quest_user
+      POSTGRES_DB: dev_job_db
+      POSTGRES_USER: dev_job_user
       POSTGRES_PASSWORD: turnip
     ports:
       - "5432:5432"

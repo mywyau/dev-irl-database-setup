@@ -18,5 +18,5 @@ EOSQL
   fi
 }
 
-create_db_if_not_exists dev_quest_db
-# create_db_if_not_exists dev_quest_test_db
+create_db_if_not_exists dev_job_db
+# create_db_if_not_exists dev_job_test_db
