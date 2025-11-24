@@ -1,10 +1,10 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: dev-job-db-it
+    container_name: dev-quest-db-it
     environment:
-      POSTGRES_DB: dev_job_test_db
-      POSTGRES_USER: dev_job_test_user
+      POSTGRES_DB: dev_quest_test_db
+      POSTGRES_USER: dev_quest_test_user
       POSTGRES_PASSWORD: turnip
     ports:
       - "5431:5432"  # Host:Container (5431 exposed, Postgres still runs on 5432)

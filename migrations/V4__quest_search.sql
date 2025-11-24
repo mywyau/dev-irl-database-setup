@@ -10,7 +10,7 @@ CREATE EXTENSION IF NOT EXISTS btree_gin;
 
 -- 1) Global, cacheable view of each quest (1 row per quest)
 CREATE TABLE IF NOT EXISTS quest_view (
-  job_id                 VARCHAR(255) PRIMARY KEY,
+  quest_id                 VARCHAR(255) PRIMARY KEY,
   client_id                VARCHAR(255) NOT NULL,
   title                    VARCHAR(255) NOT NULL,
   rank                     VARCHAR(50),
@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS quest_view (
   estimation_close_at      TIMESTAMPTZ,
 
   -- Aggregates to show/filter/sort on the list
-  job_quotes_count         INT DEFAULT 0,
-  min_job_quote            NUMERIC,
-  max_job_quote            NUMERIC,
+  quest_quotes_count         INT DEFAULT 0,
+  min_quest_quote            NUMERIC,
+  max_quest_quote            NUMERIC,
 
   estimates_count          INT DEFAULT 0,
   avg_estimated_hours      DECIMAL(10,2),
@@ -51,12 +51,12 @@ CREATE TABLE IF NOT EXISTS quest_view (
 
 -- 2) Per-user personalization (keep sparse to stay fast)
 CREATE TABLE IF NOT EXISTS quest_user_view (
-  job_id                VARCHAR(255) NOT NULL,
+  quest_id                VARCHAR(255) NOT NULL,
   user_id                 VARCHAR(100) NOT NULL,
   has_user_bid            BOOLEAN DEFAULT FALSE,
   user_bid                NUMERIC,
   has_user_estimated      BOOLEAN DEFAULT FALSE,
   user_estimated_hours    DECIMAL(10,2),
-  PRIMARY KEY (job_id, user_id)
+  PRIMARY KEY (quest_id, user_id)
 );
 

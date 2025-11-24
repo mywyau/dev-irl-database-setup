@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS jobs;
+DROP TABLE IF EXISTS quests;
 DROP TABLE IF EXISTS dev_bids;
 DROP TABLE IF EXISTS dev_submissions;
 DROP TABLE IF EXISTS estimation_expiration;
 DROP TABLE IF EXISTS language;
-DROP TABLE IF EXISTS job_assignment;
-DROP TABLE IF EXISTS job_estimations;
-DROP TABLE IF EXISTS job_hours;
+DROP TABLE IF EXISTS quest_assignment;
+DROP TABLE IF EXISTS quest_estimations;
+DROP TABLE IF EXISTS quest_hours;
 DROP TABLE IF EXISTS reward;
 DROP TABLE IF EXISTS skill;
 DROP TABLE IF EXISTS stripe_accounts;

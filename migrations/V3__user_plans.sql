@@ -55,41 +55,41 @@ INSERT INTO pricing_plans (
   -- CLIENT
   ('PLAN001','ClientFree','Free plan', NULL,
     jsonb_build_object(
-      'maxActivejobs', 2,
+      'maxActivequests', 2,
       'FreelancerPool', 'auto',
       'estimations', true,
       'canCustomizeLevelThresholds', false,
-      'boostjobs', false
+      'boostquests', false
     )::jsonb,
     0.00,'month', 'Client'
   ),
   ('PLAN002','ClientStarter','Starter plan', 'price_1RxYV509eXrPaQIgAdMavMwB',
     jsonb_build_object(
-      'maxActivejobs', 5,
+      'maxActivequests', 5,
       'FreelancerPool', 'invite',
       'estimations', true,
       'canCustomizeLevelThresholds', false,
-      'boostjobs', false
+      'boostquests', false
     )::jsonb,
     30.00,'month', 'Client'
   ),
   ('PLAN003','ClientGrowth','Growth plan', 'price_1RxYWG09eXrPaQIgLCQ4zaVC',
     jsonb_build_object(
-      'maxActivejobs', 20,
+      'maxActivequests', 20,
       'FreelancerPool', 'invite',
       'estimations', true,
       'canCustomizeLevelThresholds', true,
-      'boostjobs', true
+      'boostquests', true
     )::jsonb,
     60.00,'month', 'Client'
   ),
   ('PLAN004','ClientScale','Scale plan', 'price_1RxYWl09eXrPaQIgLcufIvaD',
     jsonb_build_object(
-      'maxActivejobs', 999999999,   -- effectively "Unlimited"
+      'maxActivequests', 999999999,   -- effectively "Unlimited"
       'FreelancerPool', 'invite',
       'estimations', true,
       'canCustomizeLevelThresholds', true,
-      'boostjobs', true
+      'boostquests', true
     )::jsonb,
     80.00,'month', 'Client'
   ),
@@ -97,7 +97,7 @@ INSERT INTO pricing_plans (
   -- DEV
   ('PLAN006','DevFree','Developer free', NULL,
     jsonb_build_object(
-      'maxActivejobs', 1,
+      'maxActivequests', 1,
       'showOnLeaderBoard', false,
       'communicateWithClient', false
     )::jsonb,
@@ -105,7 +105,7 @@ INSERT INTO pricing_plans (
   ),
   ('PLAN007','DevFreelancer','Developer freelancer', 'price_1RxYXS09eXrPaQIgHNNfOnMG',  -- this stripe id is test only for now 
     jsonb_build_object(
-      'maxActivejobs', 5,
+      'maxActivequests', 5,
       'showOnLeaderBoard', true,
       'communicateWithClient', true
     )::jsonb,
@@ -113,7 +113,7 @@ INSERT INTO pricing_plans (
   ),
   ('PLAN008','DevPro','Developer pro', 'price_1RxYXm09eXrPaQIgbZQwCxd3',
     jsonb_build_object(
-      'maxActivejobs', 10,
+      'maxActivequests', 10,
       'showOnLeaderBoard', true,
       'communicateWithClient', true
     )::jsonb,
