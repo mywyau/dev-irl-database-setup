@@ -1,7 +1,7 @@
 
 CREATE TABLE quest (
     id BIGSERIAL PRIMARY KEY,
-    job_id VARCHAR(255) NOT NULL UNIQUE,
+    quest_id VARCHAR(255) NOT NULL UNIQUE,
     client_id VARCHAR(255) NOT NULL,
     freelancer_id VARCHAR(100),
     rank VARCHAR(50),
@@ -46,7 +46,7 @@ CREATE TABLE notifications (
 
 CREATE TABLE freelancer_bids (
     id BIGSERIAL PRIMARY KEY,
-    job_id VARCHAR(255) NOT NULL,
+    quest_id VARCHAR(255) NOT NULL,
     freelancer_id VARCHAR(255) NOT NULL,
     freelancer_username VARCHAR(50) NOT NULL,
     bid  NUMERIC NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE freelancer_submissions (
     id BIGSERIAL PRIMARY KEY,
     client_id VARCHAR(255) NOT NULL,
     freelancer_id VARCHAR(100) NOT NULL,
-    job_id VARCHAR(255) NOT NULL,
+    quest_id VARCHAR(255) NOT NULL,
     file_name VARCHAR(255) NOT NULL,
     file_type TEXT,
     file_size BIGINT,
@@ -78,7 +78,7 @@ CREATE TABLE freelancer_submissions (
 
 CREATE TABLE reward (
     id BIGSERIAL PRIMARY KEY,
-    job_id VARCHAR(255) NOT NULL,
+    quest_id VARCHAR(255) NOT NULL,
     client_id VARCHAR(255) NOT NULL,
     freelancer_id VARCHAR(100),
     time_reward_value NUMERIC,
@@ -86,6 +86,6 @@ CREATE TABLE reward (
     paid VARCHAR(50) DEFAULT 'NotPaid',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (job_id) REFERENCES quests(job_id) ON DELETE CASCADE,
-    UNIQUE (job_id, client_id) 
+    FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE,
+    UNIQUE (quest_id, client_id) 
 );
