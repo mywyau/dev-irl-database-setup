@@ -19,7 +19,7 @@ CREATE TABLE users (
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     mobile VARCHAR(50),
-    user_type VARCHAR(50) CHECK (user_type IN ('Client', 'Dev', 'UnknownUserType')),
+    user_type VARCHAR(50) CHECK (user_type IN ('Client', 'Freelancer', 'Admin', 'UnknownUserType')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -35,7 +35,7 @@ CREATE TABLE stripe_accounts (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE dev_skills (
+CREATE TABLE freelancer_skills (
   id BIGSERIAL PRIMARY KEY,
   dev_id VARCHAR(100),
   username VARCHAR(50),
@@ -48,16 +48,4 @@ CREATE TABLE dev_skills (
   FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE dev_languages (
-  id BIGSERIAL PRIMARY KEY,
-  dev_id VARCHAR(100),
-  username VARCHAR(50),
-  language VARCHAR(255),
-  level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
-  xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-  next_level INT,
-  next_level_xp DECIMAL(10, 2),
-  CONSTRAINT unique_dev_language UNIQUE (dev_id, language),
-  FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
 
