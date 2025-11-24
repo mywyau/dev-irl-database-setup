@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS pricing_plans (
     features JSONB DEFAULT '{}'::jsonb,
     price NUMERIC NOT NULL DEFAULT 0.00,
     interval VARCHAR(20) DEFAULT 'month',
-    user_type VARCHAR(50) CHECK (user_type IN ('Client', 'Dev', 'NoUserType', 'UnknownUserType')),
+    user_type VARCHAR(50) CHECK (user_type IN ('Client', 'Freelancer', 'Admin', 'NoUserType', 'UnknownUserType')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -56,7 +56,7 @@ INSERT INTO pricing_plans (
   ('PLAN001','ClientFree','Free plan', NULL,
     jsonb_build_object(
       'maxActiveQuests', 2,
-      'devPool', 'auto',
+      'FreelancerPool', 'auto',
       'estimations', true,
       'canCustomizeLevelThresholds', false,
       'boostQuests', false
@@ -66,7 +66,7 @@ INSERT INTO pricing_plans (
   ('PLAN002','ClientStarter','Starter plan', 'price_1RxYV509eXrPaQIgAdMavMwB',
     jsonb_build_object(
       'maxActiveQuests', 5,
-      'devPool', 'invite',
+      'FreelancerPool', 'invite',
       'estimations', true,
       'canCustomizeLevelThresholds', false,
       'boostQuests', false
@@ -76,7 +76,7 @@ INSERT INTO pricing_plans (
   ('PLAN003','ClientGrowth','Growth plan', 'price_1RxYWG09eXrPaQIgLCQ4zaVC',
     jsonb_build_object(
       'maxActiveQuests', 20,
-      'devPool', 'invite',
+      'FreelancerPool', 'invite',
       'estimations', true,
       'canCustomizeLevelThresholds', true,
       'boostQuests', true
@@ -86,7 +86,7 @@ INSERT INTO pricing_plans (
   ('PLAN004','ClientScale','Scale plan', 'price_1RxYWl09eXrPaQIgLcufIvaD',
     jsonb_build_object(
       'maxActiveQuests', 999999999,   -- effectively "Unlimited"
-      'devPool', 'invite',
+      'FreelancerPool', 'invite',
       'estimations', true,
       'canCustomizeLevelThresholds', true,
       'boostQuests', true
@@ -94,30 +94,30 @@ INSERT INTO pricing_plans (
     80.00,'month', 'Client'
   ),
 
-  -- DEV
-  ('PLAN006','DevFree','Developer free', NULL,
+  -- Freelancer
+  ('PLAN006','FreelancerFree','Freelancer free', NULL,
     jsonb_build_object(
       'maxActiveQuests', 1,
       'showOnLeaderBoard', false,
       'communicateWithClient', false
     )::jsonb,
-    0.00,'month', 'Dev'
+    0.00,'month', 'Freelancer'
   ),
-  ('PLAN007','DevFreelancer','Developer freelancer', 'price_1RxYXS09eXrPaQIgHNNfOnMG',  -- this stripe id is test only for now 
+  ('PLAN007','Freelancer Basic','Freelancer basic', 'price_1RxYXS09eXrPaQIgHNNfOnMG',  -- this stripe id is test only for now 
     jsonb_build_object(
       'maxActiveQuests', 5,
       'showOnLeaderBoard', true,
       'communicateWithClient', true
     )::jsonb,
-    20.00,'month', 'Dev'
+    20.00,'month', 'Freelancer'
   ),
-  ('PLAN008','DevPro','Developer pro', 'price_1RxYXm09eXrPaQIgbZQwCxd3',
+  ('PLAN008','FreelancerPro','Freelancer pro', 'price_1RxYXm09eXrPaQIgbZQwCxd3',
     jsonb_build_object(
       'maxActiveQuests', 10,
       'showOnLeaderBoard', true,
       'communicateWithClient', true
     )::jsonb,
-    40.00,'month', 'Dev'
+    40.00,'month', 'Freelancer'
   )
 ON CONFLICT (plan_id) DO UPDATE SET
   name            = EXCLUDED.name,
