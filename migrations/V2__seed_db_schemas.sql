@@ -1,5 +1,5 @@
 
-CREATE TABLE job (
+CREATE TABLE quest (
     id BIGSERIAL PRIMARY KEY,
     job_id VARCHAR(255) NOT NULL UNIQUE,
     client_id VARCHAR(255) NOT NULL,
@@ -13,6 +13,21 @@ CREATE TABLE job (
     estimated BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE quests_v2 (
+    id BIGSERIAL PRIMARY KEY,
+    quest_id VARCHAR(255) NOT NULL UNIQUE,
+    client_id VARCHAR(255) NOT NULL,
+    dev_id VARCHAR(100),
+    rank VARCHAR(50),
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    acceptance_criteria TEXT NOT NULL,        
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     -- FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
     -- FOREIGN KEY (freelancer_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
@@ -37,9 +52,9 @@ CREATE TABLE freelancer_bids (
     bid  NUMERIC NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (job_id) REFERENCES quests(job_id) ON DELETE CASCADE,
+    FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE,
     FOREIGN KEY (freelancer_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    UNIQUE (job_id, freelancer_id)
+    UNIQUE (quest_id, freelancer_id)
 );
 
 CREATE TABLE freelancer_submissions (
@@ -57,7 +72,7 @@ CREATE TABLE freelancer_submissions (
     expires_at TIMESTAMPTZ,
     FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (freelancer_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (job_id) REFERENCES quests(job_id) ON DELETE CASCADE
+    FOREIGN KEY (quest_id) REFERENCES quests(quest_id) ON DELETE CASCADE
 );
 
 

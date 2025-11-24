@@ -37,15 +37,27 @@ CREATE TABLE stripe_accounts (
 
 CREATE TABLE freelancer_skills (
   id BIGSERIAL PRIMARY KEY,
-  dev_id VARCHAR(100),
+  freelancer_id VARCHAR(100),
   username VARCHAR(50),
   skill VARCHAR(255),
   level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
   xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
   next_level INT,
   next_level_xp DECIMAL(10, 2),
-  CONSTRAINT unique_dev_skill UNIQUE (dev_id, skill),
-  FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
+  CONSTRAINT unique_dev_skill UNIQUE (freelancer_id, skill),
+  FOREIGN KEY (freelancer_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+CREATE TABLE dev_languages (
+  id BIGSERIAL PRIMARY KEY,
+  freelancer_id VARCHAR(100),
+  username VARCHAR(50),
+  language VARCHAR(255),
+  level INT NOT NULL DEFAULT 1 CHECK (level >= 1 AND level <= 99),
+  xp DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  next_level INT,
+  next_level_xp DECIMAL(10, 2),
+  CONSTRAINT unique_dev_language UNIQUE (freelancer_id, language),
+  FOREIGN KEY (freelancer_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
 
