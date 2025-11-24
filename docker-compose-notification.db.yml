@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: dev-notification-db
+    environment:
+      POSTGRES_DB: dev_notification_db
+      POSTGRES_USER: dev_notification_user
+      POSTGRES_PASSWORD: turnip
+    ports:
+      - "5436:5432"  # Host:Container (5435 exposed, Postgres still runs on 5432)
+    volumes:
+      - notification_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - dev-irl-network
+    restart: unless-stopped
+
+volumes:
+  notification_data:
+
+networks:
+  dev-irl-network:
+    external: true
