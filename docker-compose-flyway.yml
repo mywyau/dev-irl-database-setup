@@ -11,4 +11,3 @@ services:
       
 networks:
   dev-irl-network:
-    external: true

@@ -33,7 +33,7 @@ services:
 
 volumes:
   postgres_data_local:
+  postgres_data_test:
 
 networks:
   dev-irl-network:
-    external: true
