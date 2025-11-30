@@ -1,5 +1,4 @@
 # docker-compose.yml
-version: "3.8"
 services:
   redpanda:
     image: redpandadata/redpanda:v24.1.9

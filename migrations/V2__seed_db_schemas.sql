@@ -1,27 +1,9 @@
 
-CREATE TABLE quest (
+CREATE TABLE quests (
     id BIGSERIAL PRIMARY KEY,
     quest_id VARCHAR(255) NOT NULL UNIQUE,
     client_id VARCHAR(255) NOT NULL,
     freelancer_id VARCHAR(100),
-    rank VARCHAR(50),
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    acceptance_criteria TEXT NOT NULL,
-    status VARCHAR(50) NOT NULL DEFAULT 'NotEstimated',
-    tags TEXT[],
-    estimated BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (client_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (dev_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
-CREATE TABLE quests_v2 (
-    id BIGSERIAL PRIMARY KEY,
-    quest_id VARCHAR(255) NOT NULL UNIQUE,
-    client_id VARCHAR(255) NOT NULL,
-    dev_id VARCHAR(100),
     rank VARCHAR(50),
     title VARCHAR(255) NOT NULL,
     description TEXT,
