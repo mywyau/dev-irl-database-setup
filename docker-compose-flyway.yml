@@ -11,3 +11,5 @@ services:
       
 networks:
   dev-irl-network:
+      name: dev-irl-network
+

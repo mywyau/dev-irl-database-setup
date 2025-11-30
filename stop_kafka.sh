@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -f docker-compose.kafka.yml -p kafka-container down -v
+docker-compose -f docker-compose-kafka.yml -p kafka-container down -v

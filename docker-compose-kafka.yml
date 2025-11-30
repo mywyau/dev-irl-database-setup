@@ -1,4 +1,4 @@
-# docker-compose.yml
+
 services:
   redpanda:
     image: redpandadata/redpanda:v24.1.9
@@ -8,4 +8,9 @@ services:
       - --advertise-kafka-addr PLAINTEXT://localhost:9092
     ports:
       - "9092:9092"
+    networks:
+      - dev-irl-network
 
+networks:
+  dev-irl-network:
+      name: dev-irl-network
