@@ -1,0 +1,15 @@
+services:
+  flyway-auth:
+    image: flyway/flyway:latest
+    container_name: flyway-auth-migration
+    command: migrate
+    volumes:
+      - ./auth/flyway.conf:/flyway/conf/flyway.conf
+      - ./auth/migrations:/flyway/sql
+    networks:
+      - dev-irl-network
+
+networks:
+  dev-irl-network:
+    external: true
+    name: dev-irl-network

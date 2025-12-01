@@ -1,13 +1,14 @@
 services:
+
   postgres-auth:
-    image: postgres:latest
+    image: postgres:16
     container_name: dev-auth-db
     environment:
       POSTGRES_DB: dev_auth_db
       POSTGRES_USER: dev_auth_user
       POSTGRES_PASSWORD: turnip
     ports:
-      - "5433:5432"   # Local: 5433 → Container: 5432
+      - "5433:5432"
     volumes:
       - auth_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
@@ -16,14 +17,14 @@ services:
     restart: unless-stopped
 
   postgres-auth-test:
-    image: postgres:latest
+    image: postgres:16
     container_name: dev-auth-db-it
     environment:
       POSTGRES_DB: dev_auth_test_db
       POSTGRES_USER: dev_auth_test_user
       POSTGRES_PASSWORD: turnip
     ports:
-      - "5434:5432"   # Local: 5434 → Container: 5432
+      - "5434:5432"
     volumes:
       - auth_data_test:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
@@ -38,4 +39,6 @@ volumes:
 networks:
   dev-irl-network:
       name: dev-irl-network
+      external: true
+
 
